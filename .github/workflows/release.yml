@@ -34,7 +34,7 @@ jobs:
           wget -qO ovrmobile.tgz https://github.com/GodotVR/godot-oculus-mobile-asset/archive/refs/tags/v${OVRMOBILE_VERSION}.tar.gz
           tar xf ovrmobile.tgz
           mv godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/addons/ .
-          rm -r ovrmobile.tgz godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/addons/
+          rm -r ovrmobile.tgz godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/
 
       - name: Download Android Installer
         run: |
