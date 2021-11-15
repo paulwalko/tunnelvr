@@ -50,7 +50,7 @@ jobs:
         run: |
           mkdir -p $HOME/.android $ANDROID_HOME
           echo "count=0" > $HOME/.android/repositories.cfg
-          yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --licenses
+          yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --licenses --sdk_root=$ANDROID_HOME
 #          yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;30.0.3" "platforms;android-29" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;21.4.7075529"
 #          keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore $ANDROID_HOME/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999       
           
