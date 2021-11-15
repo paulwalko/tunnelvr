@@ -8,13 +8,14 @@ jobs:
     env:
       GODOT_VERSION: 3.4
       GODOT_RELEASE: stable
+      OVRMOBILE_VERSION: 3.0.1
       ANDROID_HOME: /home/runner/android-sdk
       ANDROID_INSTALLER: /home/runner/android-sdk-installer
       EDITOR_DATA: /home/runner/work/tunnelvr
     steps:
       - name: Download Godot
         run: |
-          wget -O godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
+          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
           unzip godot.zip
           mv Godot_v${GODOT_VERSION}-stable_linux_headless.64 godot
           mkdir -p $EDITOR_DATA
@@ -22,8 +23,42 @@ jobs:
           
       - name: Download Godot export templates
         run: |
-          wget -O templates.tpz https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
+          wget -qO templates.tpz https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
           unzip templates.tpz
           mkdir -p ${EDITOR_DATA}/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
           mv templates/* $EDITOR_DATA/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
           rm templates.tpz
+          
+      - name: Download ovrmobile assets
+        run: |
+          wget -qO ovrmobile.tgz https://github.com/GodotVR/godot-oculus-mobile-asset/archive/refs/tags/v${OVRMOBILE_VERSION}.tar.gz
+          tar xf ovrmobile.tgz
+          mv godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/addons/ .
+          rm -r ovrmobile.tgz godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/addons/
+
+      - name: Download Android Installer
+        run: |
+         mkdir -p $ANDROID_INSTALLER
+         pushd $ANDROID_INSTALLER &>/dev/null
+         wget -q https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
+         unzip -q commandlinetools-linux-6858069_latest.zip
+         mv cmdline-tools latest
+         rm commandlinetools-linux-6858069_latest.zip
+         popd &>/dev/null
+         
+      - name: Install Android SDK
+        run: |
+          mkdir -p $HOME/.android
+          echo "count=0" > $HOME/.android/repositories.cfg
+          yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --licenses
+          yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME \
+            "platform-tools" "build-tools;30.0.3" "platforms;android-29" "cmdline-tools;latest" \
+            "cmake;3.10.2.4988404" "ndk;21.4.7075529"
+          keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android \
+            -keystore $ANDROID_HOME/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999       
+          
+          
+          
+          
+          
+          
