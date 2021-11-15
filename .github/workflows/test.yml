@@ -1,0 +1,12 @@
+name: Test
+
+on: push
+
+jobs:
+  trigger:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Test
+        run: ls
+      - name: Test
+        run: ls ../
