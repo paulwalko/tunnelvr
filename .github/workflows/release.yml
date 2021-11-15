@@ -13,6 +13,9 @@ jobs:
       ANDROID_INSTALLER: /home/runner/android-sdk-installer
       EDITOR_DATA: editor_data
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      
       - name: Download Godot
         run: |
           wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
