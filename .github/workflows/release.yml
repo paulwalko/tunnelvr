@@ -8,10 +8,10 @@ jobs:
     env:
       GODOT_VERSION: 3.4
       GODOT_RELEASE: stable
-      ANDROID_HOME: $HOME/android-sdk
-      ANDROID_INSTALLER: TODO
-      EXPORT_DATA: TODO
+      ANDROID_HOME: /home/worker/android-sdk
+      ANDROID_INSTALLER: /home/worker/android-sdk-installer
+      EXPORT_DATA: /home/worker/work/tunnelvr
     steps:
       - name: Download Godot
         run: |
-          echo $ANDROID_HOME
+          ls
