@@ -1,0 +1,18 @@
+name: Build Android APK
+
+on: push
+
+jobs:
+  trigger:
+    runs-on: ubuntu-20.04
+    env:
+      GODOT_VERSION: 3.4
+      GODOT_RELEASE: stable
+      ANDROID_HOME: TODO
+      ANDROID_INSTALLER: TODO
+      EXPORT_DATA: TODO
+    steps:
+      - name: Download Godot
+        run: |
+          ls
+          pwd
