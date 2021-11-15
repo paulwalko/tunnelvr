@@ -10,7 +10,7 @@ jobs:
       GODOT_RELEASE: stable
       ANDROID_HOME: /home/worker/android-sdk
       ANDROID_INSTALLER: /home/worker/android-sdk-installer
-      EXPORT_DATA: /home/worker/work/tunnelvr
+      EDITOR_DATA: /home/worker/work/tunnelvr
     steps:
       - name: Download Godot
         run: |
@@ -18,4 +18,12 @@ jobs:
           unzip godot.zip
           mv Godot_v${GODOT_VERSION}-stable_linux_headless.64 godot
           mkdir -p $EDITOR_DATA
-          rm Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
+          rm godot.zip
+          
+      - name: Download Godot export templates
+        run: |
+          wget -O templates.tpz https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
+          unzip templates.tpz
+          mkdir -p ${EDITOR_DATA}/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
+          mv templates/* $EDITOR_DATA/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
+          rm templates.tpz
