@@ -15,17 +15,17 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repo
-        uses: actions/heckout@v2
+        uses: actions/checkout@v2
         
   download-godot:
     runs-on: ubuntu-20.04
     steps:
       - name: Download Godot Headless
         run: |
-          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${env.GODOT_VERSION}/Godot_v${env.GODOT_VERSION}-${env.GODOT_RELEASE}_linux_headless.64.zip
+          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_RELEASE }}_linux_headless.64.zip
           unzip godot.zip
-          mv Godot_v${env.GODOT_VERSION}-stable_linux_headless.64 godot
-          mkdir $EDITOR_DATA
+          mv Godot_v${{ env.GODOT_VERSION }}-stable_linux_headless.64 godot
+          mkdir ${{ EDITOR_DATA }}
           rm godot.zip
           
 #      - name: Download Godot export templates
