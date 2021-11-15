@@ -8,11 +8,10 @@ jobs:
     env:
       GODOT_VERSION: 3.4
       GODOT_RELEASE: stable
-      ANDROID_HOME: TODO
+      ANDROID_HOME: $HOME/android-sdk
       ANDROID_INSTALLER: TODO
       EXPORT_DATA: TODO
     steps:
       - name: Download Godot
         run: |
-          ls
-          pwd
+          echo $ANDROID_HOME
