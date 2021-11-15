@@ -83,7 +83,7 @@ gdscript/warnings/integer_division=false
 
 [gdnative]
 
-singletons=[ "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib", "res://e/assets/addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
+singletons=[ "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
 
 [input]
 
