@@ -25,7 +25,7 @@ jobs:
           wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_RELEASE }}_linux_headless.64.zip
           unzip godot.zip
           mv Godot_v${{ env.GODOT_VERSION }}-stable_linux_headless.64 godot
-          mkdir ${{ EDITOR_DATA }}
+          mkdir ${{ env.EDITOR_DATA }}
           rm godot.zip
           
 #      - name: Download Godot export templates
