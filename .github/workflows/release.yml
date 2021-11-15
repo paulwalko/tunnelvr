@@ -48,7 +48,7 @@ jobs:
          
       - name: Install Android SDK
         run: |
-          mkdir -p $HOME/.android
+          mkdir -p $$HOME/.android $ANDROID_HOME
           echo "count=0" > $HOME/.android/repositories.cfg
           yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --licenses
           yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME \
