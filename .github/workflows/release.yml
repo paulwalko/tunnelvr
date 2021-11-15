@@ -13,29 +13,29 @@ jobs:
       ANDROID_INSTALLER: /home/runner/android-sdk-installer
       EDITOR_DATA: /home/runner/work/tunnelvr
     steps:
-#      - name: Download Godot
-#        run: |
-#          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
-#          unzip godot.zip
-#          mv Godot_v${GODOT_VERSION}-stable_linux_headless.64 godot
-#          mkdir -p $EDITOR_DATA
-#          rm godot.zip
-#          
-#      - name: Download Godot export templates
-#        run: |
-#          wget -qO templates.tpz https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
-#          unzip templates.tpz
-#          mkdir -p ${EDITOR_DATA}/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
-#          mv templates/* $EDITOR_DATA/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
-#          rm templates.tpz
-#          
-#      - name: Download ovrmobile assets
-#        run: |
-#          wget -qO ovrmobile.tgz https://github.com/GodotVR/godot-oculus-mobile-asset/archive/refs/tags/v${OVRMOBILE_VERSION}.tar.gz
-#          tar xf ovrmobile.tgz
-#          mv godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/addons/ .
-#          rm -r ovrmobile.tgz godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/
-#
+      - name: Download Godot
+        run: |
+          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
+          unzip godot.zip
+          mv Godot_v${GODOT_VERSION}-stable_linux_headless.64 godot
+          mkdir -p $EDITOR_DATA
+          rm godot.zip
+          
+      - name: Download Godot export templates
+        run: |
+          wget -qO templates.tpz https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
+          unzip templates.tpz
+          mkdir -p ${EDITOR_DATA}/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
+          mv templates/* $EDITOR_DATA/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
+          rm templates.tpz
+          
+      - name: Download ovrmobile assets
+        run: |
+          wget -qO ovrmobile.tgz https://github.com/GodotVR/godot-oculus-mobile-asset/archive/refs/tags/v${OVRMOBILE_VERSION}.tar.gz
+          tar xf ovrmobile.tgz
+          mv godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/addons/ .
+          rm -r ovrmobile.tgz godot-oculus-mobile-asset-${OVRMOBILE_VERSION}/
+
       - name: Download Android Installer
         run: |
          mkdir -p $ANDROID_INSTALLER
@@ -54,7 +54,17 @@ jobs:
           yes | $ANDROID_INSTALLER/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;30.0.3" "platforms;android-29" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;21.4.7075529"
           keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore $ANDROID_HOME/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999       
           
-          
+      - name: Initialize Godot
+        run: |
+        ./godot -e -v -q
+        echo "export/android/debug_keystore = \"$ANDROID_HOME/debug.keystore\"" >> ./editor_data/editor_settings-3.tres
+        echo 'export/android/debug_keystore_user = "androiddebugkey"' >> ./editor_data/editor_settings-3.tres
+        echo 'export/android/debug_keystore_pass = "android"' >> ./editor_data/editor_settings-3.tres
+        echo "export/android/android_sdk_path = \"$ANDROID_HOME\"" >> ./editor_data/editor_settings-3.tres
+        echo "projects/$(echo $PWD | sed 's/\//::/g') = \"$PWD\"" >> ./editor_data/editor_settings-3.tres
+        
+      - name: Export APK
+        run: ./godot --export "Quest" tunnelvr.apk
           
           
           
