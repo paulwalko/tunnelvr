@@ -69,7 +69,7 @@ jobs:
           echo "export/android/android_sdk_path = \"$ANDROID_HOME\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
 
       - name: Export Quest
-        run: ./godot --export-debug "Quest" tunnelvr_${GITHUB_REF}.apk
+        run: ./godot --export-debug "Quest" tunnelvr_${GITHUB_REF##*/}.apk
 
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
