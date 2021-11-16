@@ -1,6 +1,9 @@
 name: Build Artifacts
 
-on: push
+on:
+  release:
+    types:
+      - created
 
 jobs:
   trigger:
@@ -67,7 +70,7 @@ jobs:
           echo "projects/$(echo $PWD | sed 's/\//::/g') = \"$PWD\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
 
       - name: Export Quest
-        run: ./godot --export-debug "Quest" tunnelvr.apk
+        run: ./godot --export "Quest" tunnelvr_quest.apk
         
       - name: Export Linux/X11
         run: ./godot --export "Linux/X11" tunnelvr_linux
@@ -79,3 +82,13 @@ jobs:
         run: |
           mkdir tunnelvr-html5
           ./godot --export "HTML5" tunnelvr-html5/tunnelvr.html
+          zip -r tunnelvr-html5.zip tunnelvr-html5/
+
+      - name: Upload artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            tunnelvr_quest.apk
+            tunnelvr_linux
+            tunnelvr_windows.exe
+            tunnelvr-html5.zip
