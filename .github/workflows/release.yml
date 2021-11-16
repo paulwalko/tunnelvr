@@ -70,7 +70,7 @@ jobs:
           echo "projects/$(echo $PWD | sed 's/\//::/g') = \"$PWD\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
 
       - name: Export Quest
-        run: ./godot --export "Quest" tunnelvr_quest.apk
+        run: ./godot --export-debug "Quest" tunnelvr_quest.apk
         
       - name: Export Linux/X11
         run: ./godot --export "Linux/X11" tunnelvr_linux
