@@ -71,24 +71,8 @@ jobs:
 
       - name: Export Quest
         run: ./godot --export-debug "Quest" tunnelvr_quest.apk
-        
-      - name: Export Linux/X11
-        run: ./godot --export "Linux/X11" tunnelvr_linux
-
-      - name: Export Windows Desktop
-        run: ./godot --export "Windows Desktop" tunnelvr_windows.exe
-
-      - name: Export HTML5
-        run: |
-          mkdir tunnelvr-html5
-          ./godot --export "HTML5" tunnelvr-html5/tunnelvr.html
-          zip -r tunnelvr-html5.zip tunnelvr-html5/
 
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            tunnelvr_quest.apk
-            tunnelvr_linux
-            tunnelvr_windows.exe
-            tunnelvr-html5.zip
+          files: tunnelvr_quest.apk
