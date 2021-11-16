@@ -6,7 +6,7 @@ on:
       - created
 
 jobs:
-  trigger:
+  build:
     runs-on: ubuntu-20.04
     env:
       GODOT_VERSION: 3.4
