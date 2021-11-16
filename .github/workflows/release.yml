@@ -67,10 +67,9 @@ jobs:
           echo 'export/android/debug_keystore_user = "androiddebugkey"' >> ./${EDITOR_DATA}/editor_settings-3.tres
           echo 'export/android/debug_keystore_pass = "android"' >> ./${EDITOR_DATA}/editor_settings-3.tres
           echo "export/android/android_sdk_path = \"$ANDROID_HOME\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
-          echo "projects/$(echo $PWD | sed 's/\//::/g') = \"$PWD\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
 
       - name: Export Quest
-        run: ./godot --export-debug "Quest" tunnelvr_quest.apk
+        run: ./godot --export-debug "Quest" tunnelvr_${GITHUB_REF}.apk
 
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
