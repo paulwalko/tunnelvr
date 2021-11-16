@@ -74,4 +74,4 @@ jobs:
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
         with:
-          files: tunnelvr_quest.apk
+          files: tunnelvr_${GITHUB_REF##*/}.apk
