@@ -1,0 +1,46 @@
+FROM debian:11.1-slim
+
+
+ENV TZ=America/New_York
+
+RUN apt-get -y update && \
+  apt-get install -y survex curl unzip debian-keyring debian-archive-keyring apt-transport-https && \
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' >> /etc/apt/trusted.gpg.d/caddy-stable.asc && \
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' >> /etc/apt/sources.list.d/caddy-stable.list && \
+  apt-get -y update && \
+  apt-get install -y caddy
+
+RUN useradd -ms /bin/bash caver
+
+
+USER caver
+
+RUN mkdir /home/caver/tunnelvr
+
+WORKDIR /home/caver/tunnelvr
+
+COPY --chown=caver:caver . .
+
+RUN curl -o godot.zip -L https://github.com/godotengine/godot/releases/download/3.4-stable/Godot_v3.4-stable_linux_headless.64.zip && \
+  unzip godot.zip && \
+  mv Godot_v3.4-stable_linux_headless.64 godot && \
+  mkdir editor_data && \
+  rm godot.zip
+
+RUN curl -o templates.tpz -L https://github.com/godotengine/godot/releases/download/3.4-stable/Godot_v3.4-stable_export_templates.tpz && \
+  unzip templates.tpz && \
+  mkdir -p editor_data/templates/3.4.stable/ && \
+  mv templates/* editor_data/templates/3.4.stable/ && \
+  rm -r templates.tpz templates/
+
+RUN curl -o ovrmobile.tgz -L https://github.com/GodotVR/godot-oculus-mobile-asset/archive/refs/tags/v3.0.1.tar.gz && \
+  tar xf ovrmobile.tgz && \
+  mv godot-oculus-mobile-asset-3.0.1/addons/ . && \
+  rm -r ovrmobile.tgz godot-oculus-mobile-asset-3.0.1/
+
+RUN ./godot -e -v -q && \
+  ./godot --export-pack "Linux/X11" tunnelvr.pck
+
+RUN ls -lh
+
+ENTRYPOINT ["/home/caver/tunnelvr/godot", "--main-pack", "tunnelvr.pck"]
