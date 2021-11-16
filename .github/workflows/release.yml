@@ -18,15 +18,15 @@ jobs:
 
       - name: Download Godot
         run: |
-          wget -qO godot.zip https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
+          wget -qO godot.zip https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_RELEASE}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64.zip
           unzip godot.zip
-          mv Godot_v${GODOT_VERSION}-stable_linux_headless.64 godot
+          mv Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux_headless.64 godot
           mkdir $EDITOR_DATA
           rm godot.zip
 
       - name: Download Godot export templates
         run: |
-          wget -qO templates.tpz https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
+          wget -qO templates.tpz https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_RELEASE}/Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz
           unzip templates.tpz
           mkdir -p ./${EDITOR_DATA}/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
           mv templates/* ${EDITOR_DATA}/templates/${GODOT_VERSION}.${GODOT_RELEASE}/
@@ -66,7 +66,7 @@ jobs:
           echo "export/android/android_sdk_path = \"$ANDROID_HOME\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
           echo "projects/$(echo $PWD | sed 's/\//::/g') = \"$PWD\"" >> ./${EDITOR_DATA}/editor_settings-3.tres
 
-      - name: Export APK
+      - name: Export Quest
         run: ./godot --export-debug "Quest" tunnelvr.apk
         
       - name: Export Linux/X11
